@@ -1,0 +1,92 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Order List{% endblock title %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>Dashboard</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li><a href="#">Dashboard</a></li>
+                                <li><a href="#">Order</a></li>
+                                <li class="active">List</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="box-title">Order List </h4>
+                </div>
+                <div class="card-body--">
+                    <div class="table-stats order-table ov-h">
+                        <table class="table ">
+                            <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if order %}
+                                {% for orders in order %}
+                                    <tr>
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td>{{ orders.customer }}</td>
+                                        <td>{{ orders.product }}</td>
+                                        <td>{{ orders.quantity }}</td>
+                                        <td>{{ orders.order_date }}</td>
+                                        <td>{{ orders.status }}</td>
+                                        <td>
+                                            {% if orders.status == 'pending' %}
+                                                <a class="btn btn-warning" href="">{{ orders.status }}</a>
+                                            {% elif orders.status == 'complete' %}
+                                                <a class="btn btn-success" href="">{{ orders.status }}</a>
+                                            {% elif orders.status == 'processing' %}
+                                                <a class="btn btn-primary" href="">{{ orders.status }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td><a href="{% url 'edit_order' orders.pk %}" class="btn btn-warning btn-sm"
+                                               role="button" aria-pressed="true"> Edit</a></td>
+                                        <td><a href="{% url 'delete_order' orders.pk %}"
+                                               class="btn btn-danger btn-sm"
+                                               role="button" aria-pressed="true"> x</a></td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>No Order Data</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div> <!-- /.table-stats -->
+                </div>
+            </div> <!-- /.card -->
+        </div>  <!-- /.col-lg-8 -->
+
+
+    </div>
+{% endblock content %}
